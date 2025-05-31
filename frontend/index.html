@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Internship Application</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-md space-y-8">
+  <div>
+  <h2 class="text-2xl font-bold mb-4 text-center">Internship Application</h2>
+  <form id="applicationForm" class="space-y-4">
+    <input type="text" id="name" placeholder="Name" required
+      class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+    <input type="email" id="email" placeholder="Email" required
+      class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+    <button type="submit"
+      class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
+      Apply
+    </button>
+  </form>
+</div>
+
+
+  <div>
+  <h2 class="text-2xl font-bold mb-4 text-center">Offer Letter Generation</h2>
+  <form id="offerForm" class="space-y-4">
+    <input type="text" id="studentName" placeholder="Student Name" required
+      class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" />
+    <input type="text" id="position" placeholder="Position" required
+      class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" />
+    <button type="submit"
+      class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition">
+      Generate Offer
+    </button>
+  </form>
+</div>
+ <p id="response" class="text-center text-blue-700 font-medium mt-4"></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
