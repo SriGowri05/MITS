@@ -39,6 +39,24 @@ const OfferSchema = new mongoose.Schema({
   }
 });
 const Offer = mongoose.model("Offer", OfferSchema);
+// ✅ Route: Submit Internship Application
+app.post("/api/apply", async (req, res) => {
+  const { name, email } = req.body;
+
+  if (!name || !email) {
+    return res.status(400).json({ message: "Name and email are required" });
+  }
+
+  try {
+    const application = new Application({ name, email });
+    await application.save();
+    res.status(200).json({ message: "Application submitted successfully!" });
+  } catch (err) {
+    console.error("❌ Error saving application:", err);
+    res.status(500).json({ message: "Server error while submitting application" });
+  }
+});
+
 
 // ✅ Route: Internship Application
 // ✅ Route: Generate Offer Letter PDF (Professional Version)
