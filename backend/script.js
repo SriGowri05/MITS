@@ -61,9 +61,18 @@ app.post("/api/apply", async (req, res) => {
 // ✅ Route: Internship Application
 // ✅ Route: Generate Offer Letter PDF (Professional Version)
 app.post("/api/offer", async (req, res) => {
-  const { studentName, position } = req.body;
+  const { studentName, position, email } = req.body;
 
   try {
+    // Check if the student applied
+    const appliedStudent = await Application.findOne({ name: studentName, email });
+
+    if (!appliedStudent) {
+      return res.status(400).json({
+        message: "No application found. Please apply before requesting an offer letter.",
+      });
+    }
+
     await Offer.create({ studentName, position });
 
     const doc = new PDFDocument({ margin: 50 });
@@ -74,7 +83,7 @@ app.post("/api/offer", async (req, res) => {
 
     doc.pipe(res);
 
-    // Header
+    // Generate your PDF content here (same as before)
     doc
       .fontSize(20)
       .fillColor("#004080")
@@ -90,11 +99,7 @@ app.post("/api/offer", async (req, res) => {
     const today = new Date().toLocaleDateString();
     doc.fontSize(12).fillColor("black").text(`Date: ${today}`).moveDown(1);
 
-    doc
-      .fontSize(12)
-      .text(`Dear ${studentName},`)
-      .moveDown(1);
-
+    doc.fontSize(12).text(`Dear ${studentName},`).moveDown(1);
     doc
       .text(`We are pleased to offer you the role of `, { continued: true })
       .font("Helvetica-Bold")
