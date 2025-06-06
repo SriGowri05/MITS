@@ -45,21 +45,25 @@ app.post("/api/apply", async (req, res) => {
   }
 });
 
-// ✅ Offer Letter Generation
+// ✅ Updated Offer Letter Generation with improved field checks and error handling
 app.post("/api/offer", async (req, res) => {
   const { studentName, position, email } = req.body;
+
   if (!studentName || !position || !email) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
   try {
+    // Look for application with exact name and email match
     const applied = await Application.findOne({ name: studentName, email });
     if (!applied) {
-      return res.status(400).json({ message: "No application found for given name and email." });
+      return res.status(400).json({ message: "No application found for the given name and email." });
     }
 
+    // Save the offer info in DB
     await Offer.create({ studentName, position, email });
 
+    // Generate PDF offer letter
     const doc = new PDFDocument({ margin: 50 });
     const filename = `${studentName.replace(/ /g, "_")}_Offer_Letter.pdf`;
 
@@ -104,6 +108,7 @@ app.post("/api/offer", async (req, res) => {
       .text("This is a system-generated letter. No signature is required.", 50, doc.y + 5, { align: "center" });
 
     doc.end();
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Error generating offer letter" });

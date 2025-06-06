@@ -28,6 +28,12 @@ document.getElementById("offerForm").addEventListener("submit", async function (
   const studentName = document.getElementById("studentName").value.trim();
   const position = document.getElementById("position").value.trim();
   const email = document.getElementById("offerEmail").value.trim();
+  console.log("Offer Form Data:", { studentName, position, email });
+
+  if (!studentName || !position || !email) {
+    alert("Please fill all fields!");
+    return;
+  }
 
   try {
     const res = await fetch(`${backendUrl}/api/offer`, {
